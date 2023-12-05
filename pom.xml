@@ -42,5 +42,14 @@
             <version>${jackson.library}</version>
         </dependency>
     </dependencies>
+     <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>3.3.1</version> <!-- Mettez à jour la version selon vos besoins -->
+            </plugin>
+        </plugins>
+    </build>
 
 </project>
