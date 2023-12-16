@@ -1,6 +1,6 @@
 pipeline {
     agent any
-
+    
     tools {
         // Utiliser Maven 3
         maven 'maven3'
