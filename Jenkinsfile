@@ -7,8 +7,7 @@ pipeline {
     }
 
     environment {
-        // Définir les informations d'identification DockerHub
-        DOCKERHUB_CREDENTIALS = credentials('dockerhub-zineb')
+        // Définir les informations d'identification sonar 
         SCANNER_HOME = tool 'sonar-scanner'
     }
 
@@ -57,45 +56,7 @@ pipeline {
             }
         }
 
-        stage('Owasp Scan') {
-            steps {
-                // Utiliser Dependency-Check pour l'analyse des dépendances
-                dependencyCheck additionalArguments: '--scan .', odcInstallation: 'DC'
-                dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
-            }
-        }
-
-        stage('Build Application') {
-            steps {
-                // Correction d'une faute d'orthographe dans la ligne suivante
-                sh "mvn package"
-            }
-        }
-
-        stage('Docker Build') {
-            steps {
-                script {
-                    // Utiliser le plugin Docker pour construire l'image Docker
-                    withDockerRegistry(credentialsId: 'dockerhub-zineb', toolName: 'docker') {
-                        sh "docker build -t zinebo/project-pipe:latest ."
-                    }
-                }
-            }
-        }
-
-        stage('Tag/Docker Push') {
-            steps {
-                script {
-                    // Tagger l'image Docker et la pousser vers DockerHub
-                    withDockerRegistry(credentialsId: 'dockerhub-zineb', toolName: 'docker') {
-                        sh "docker tag zinebo/project-pipe:latest zinebo/project-pipe:latest"
-                        sh "docker push zinebo/project-pipe:latest"
-                     sh "docker run --name test -d -p 8082:8080 zinebo/project-pipe:latest"
-                    }
-                }
-            }
-        }
-
+       
 
        
     }
