@@ -85,6 +85,18 @@ pipeline {
                 }
             }
         }
+          stage('lancemnet du conteneur ') {
+            steps {
+                script {
+                    // Tagger l'image Docker et la pousser vers DockerHub
+                    withDockerRegistry(credentialsId: 'dockerhub-zineb', toolName: 'docker') {
+                          sh "docker run --name test -d -p 8082:8080  -v /path/on/host:/usr/local/tomcat/external_data zinebo/project-pipe:latest"
+                       
+               
+                    }
+                }
+            }
+        }
     }
     
 }
