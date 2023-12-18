@@ -73,5 +73,18 @@ pipeline {
                 }
             }
         }
+         stage('Tag/Docker Push') {
+            steps {
+                script {
+                    // Tagger l'image Docker et la pousser vers DockerHub
+                    withDockerRegistry(credentialsId: 'dockerhub-zineb', toolName: 'docker') {
+                        sh "docker tag zinebo/project-pipe:latest zinebo/project-pipe:latest"
+                        sh "docker push zinebo/project-pipe:latest"
+                     sh "docker run --name test -d -p 8082:8080 zinebo/project-pipe:latest"
+                    }
+                }
+            }
+        }
     }
+    
 }
