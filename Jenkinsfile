@@ -56,7 +56,12 @@ pipeline {
             }
         }
 
-       
+       stage('Build Application') {
+            steps {
+                // Correction d'une faute d'orthographe dans la ligne suivante
+                sh "mvn package"
+            }
+        }
 
        
     }
