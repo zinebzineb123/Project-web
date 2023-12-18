@@ -7,7 +7,7 @@ pipeline {
     }
 
     environment {
-        // Définir les informations d'identification sonar 
+        DOCKERHUB_CREDENTIALS = credentials('dockerhub-zineb')
         SCANNER_HOME = tool 'sonar-scanner'
     }
 
@@ -63,6 +63,15 @@ pipeline {
             }
         }
 
-       
+       stage('Docker Build') {
+            steps {
+                script {
+                    // Utiliser le plugin Docker pour construire l'image Docker
+                    withDockerRegistry(credentialsId: 'dockerhub-zineb', toolName: 'docker') {
+                        sh "docker build -t zinebo/project-pipe:latest ."
+                    }
+                }
+            }
+        }
     }
 }
